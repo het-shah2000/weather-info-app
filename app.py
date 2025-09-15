@@ -9,11 +9,12 @@ import os
 # Add src directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
+# Import after path setup
 from src.app import create_app
 
 # Create the Flask application
 app = create_app()
 
 if __name__ == '__main__':
-    from src.app import main
-    main()
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
