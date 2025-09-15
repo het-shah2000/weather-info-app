@@ -36,7 +36,7 @@ def create_app(config_name: str = None) -> Flask:
     app.config.from_object(config[config_name])
     
     # Register blueprints
-    app.register_blueprint(api_bp)
+    app.register_blueprint(api_bp, url_prefix='/weather')
     
     # Initialize Swagger API
     swagger_api.init_app(app)
