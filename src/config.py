@@ -47,19 +47,20 @@ class Config:
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
-    USE_MOCK_STORAGE = True
+    USE_MOCK_STORAGE = False  # Use GCS for all environments now
 
 
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
-    USE_MOCK_STORAGE = True  # Use mock storage for demo deployment
+    USE_MOCK_STORAGE = False  # Use real GCS in production
 
 
 class TestingConfig(Config):
     """Testing configuration"""
     DEBUG = True
     GCS_BUCKET_NAME = 'test-weather-data-bucket'
+    USE_MOCK_STORAGE = True  # Keep mock for testing
 
 
 # Configuration mapping
