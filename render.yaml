@@ -5,7 +5,7 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
     envVars:
-      - key: FLASK_ENV
-        value: production
       - key: GCS_BUCKET_NAME
-        value: weather-data-bucket
+        value: reference-tine-472217-g5-bucket
+      - key: GOOGLE_CLOUD_PROJECT
+        value: reference-tine-472217-g5
