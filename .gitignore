@@ -164,6 +164,10 @@ cython_debug/
 # Google Cloud credentials
 *.json
 !**/requirements.json
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/vercel.json
+!frontend/netlify.toml
 service-account-key.json
 credentials.json
 
@@ -182,3 +186,12 @@ logs/
 
 # Local development storage
 local_weather_data/
+
+# Frontend dependencies and build
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local

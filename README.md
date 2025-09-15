@@ -1,19 +1,49 @@
-# Weather Data Backend Service
+# Weather Analytics Platform
 
-A production-ready Flask-based backend service that fetches historical weather data from the Open-Meteo API, stores it in Google Cloud Storage, and provides REST API endpoints to manage weather data files.
+A full-stack weather analytics platform featuring a robust Flask backend service and an interactive React dashboard for visualizing historical weather data from the Open-Meteo API.
 
-## Features
+## 🌟 Features
 
-- 🌤️ Fetch historical weather data from Open-Meteo API
-- ☁️ Store weather data as JSON files in Google Cloud Storage
-- 📋 List all stored weather files with metadata
-- 📄 Retrieve specific weather file contents
-- ✅ Comprehensive error handling and validation
-- 🐳 Dockerized for easy deployment
-- 🚀 Ready for Google Cloud Run deployment
-- 🧪 Full test coverage with pytest
-- 📊 Structured logging and monitoring
-- 🔧 Professional project structure following best practices
+### Backend Service
+- 🌤️ **Weather Data Fetching**: Integrates with Open-Meteo API for historical weather data
+- ☁️ **Dual Storage**: Supports both Google Cloud Storage and local mock storage
+- 📋 **RESTful API**: Clean REST endpoints with comprehensive validation
+- 📊 **Interactive Documentation**: Built-in Swagger UI for API exploration
+- 🧪 **Production Ready**: Containerized with comprehensive testing
+
+### Frontend Dashboard
+- 📱 **Interactive Visualization**: Beautiful charts using Chart.js
+- 🎨 **Responsive Design**: Mobile-first design with Tailwind CSS
+- ⚡ **Real-time Data**: Live weather data fetching and visualization
+- 📤 **Data Export**: CSV export functionality for analysis
+- 📄 **Smart Pagination**: Efficient data table with customizable page sizes
+
+## 🚀 Live Demo
+
+- **Frontend Dashboard**: [Deploy to Vercel/Netlify]
+- **Backend API**: [Deploy to Railway/Render]
+- **API Documentation**: [Your-API-URL]/docs/
+
+## 🏗️ Architecture
+
+This is a **monorepo** containing both frontend and backend services:
+
+```
+weather-analytics-platform/
+├── frontend/          # React dashboard with Tailwind CSS
+│   ├── src/
+│   │   ├── components/    # React components
+│   │   ├── utils/         # API utilities and validation
+│   │   └── styles/        # Tailwind CSS styles
+│   ├── package.json
+│   └── vite.config.js
+├── src/               # Flask backend service
+│   ├── api/           # API routes and Swagger docs
+│   ├── services/      # Weather and storage services
+│   └── utils/         # Validation and logging
+├── tests/             # Backend test suite
+└── requirements.txt   # Python dependencies
+```
 
 ## Project Structure
 
