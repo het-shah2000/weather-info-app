@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import WeatherForm from './WeatherForm'
 import WeatherChart from './WeatherChart'
 import WeatherTable from './WeatherTable'
-import { fetchWeatherData, transformDataForChart, transformDataForTable } from '../utils/weatherApi'
+import { storeWeatherData, getWeatherFileContent, transformDataForChart, transformDataForTable } from '../utils/backendApi'
 import { AlertCircle, CheckCircle, Info } from 'lucide-react'
 
 const WeatherDashboard = () => {
@@ -24,22 +24,36 @@ const WeatherDashboard = () => {
       const startDateStr = startDate.toISOString().split('T')[0]
       const endDateStr = endDate.toISOString().split('T')[0]
       
-      // Fetch weather data
-      const result = await fetchWeatherData(latitude, longitude, startDateStr, endDateStr)
+      // Store weather data using backend service
+      const storeResult = await storeWeatherData(latitude, longitude, startDateStr, endDateStr)
       
-      if (result.success) {
-        setWeatherData(result.data)
-        setChartData(transformDataForChart(result.data))
-        setTableData(transformDataForTable(result.data))
-        setLastQuery({
-          latitude,
-          longitude,
-          startDate: startDateStr,
-          endDate: endDateStr,
-          location: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
-        })
+      if (storeResult.success) {
+        // Get the filename from the store response
+        const filename = storeResult.data.filename
+        
+        // Fetch the stored weather data content
+        const contentResult = await getWeatherFileContent(filename)
+        
+        if (contentResult.success) {
+          setWeatherData(contentResult.data)
+          setChartData(transformDataForChart(contentResult.data))
+          setTableData(transformDataForTable(contentResult.data))
+          setLastQuery({
+            latitude,
+            longitude,
+            startDate: startDateStr,
+            endDate: endDateStr,
+            location: `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+            filename: filename
+          })
+        } else {
+          setError(contentResult.error)
+          setWeatherData(null)
+          setChartData(null)
+          setTableData([])
+        }
       } else {
-        setError(result.error)
+        setError(storeResult.error)
         setWeatherData(null)
         setChartData(null)
         setTableData([])
@@ -75,9 +89,10 @@ const WeatherDashboard = () => {
           <div className="flex items-center space-x-2">
             <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
             <div>
-              <h4 className="text-green-800 font-medium">Data Loaded Successfully</h4>
+              <h4 className="text-green-800 font-medium">Data Stored & Loaded Successfully</h4>
               <p className="text-green-700 text-sm mt-1">
                 Weather data for {lastQuery.location} from {lastQuery.startDate} to {lastQuery.endDate}
+                {lastQuery.filename && <span className="block text-xs mt-1">Stored as: {lastQuery.filename}</span>}
               </p>
             </div>
           </div>
@@ -89,9 +104,9 @@ const WeatherDashboard = () => {
           <div className="flex items-center space-x-2">
             <div className="loading-spinner"></div>
             <div>
-              <h4 className="text-blue-800 font-medium">Fetching Weather Data</h4>
+              <h4 className="text-blue-800 font-medium">Processing Weather Data</h4>
               <p className="text-blue-700 text-sm mt-1">
-                Please wait while we retrieve historical weather information...
+                Storing weather data to cloud storage and preparing visualization...
               </p>
             </div>
           </div>
