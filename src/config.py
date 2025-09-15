@@ -53,6 +53,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
+    USE_MOCK_STORAGE = True  # Use mock storage for demo deployment
 
 
 class TestingConfig(Config):
